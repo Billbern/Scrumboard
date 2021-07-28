@@ -14,11 +14,13 @@ function App() {
         <Router>
             <div className="h-screen w-screen text-off-gray-dark overflow-hidden">
                 <Header/>
-                <div className="relative flex items-center justify-content-center h-full">
-                    <div className="fixed h-full">
-                        <SideMenu />
+                <div className="relative flex items-center justify-content-center h-main">
+                    <div className="relative h-full w-24">
+                        <div className="absolute h-full w-full">
+                            <SideMenu />
+                        </div>
                     </div>
-                    <div className="h-full ml-24 w-full">
+                    <div className="h-full w-full">
                         <Switch>
                             <Route path="/logout">
                                 <Logout />

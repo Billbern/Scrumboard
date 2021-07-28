@@ -4,7 +4,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 function InfoBar(){
     return(
         <section className="mb-11">
-            <div className="grid grid-cols-8">
+            <div className="grid grid-cols-8 gap-0.5">
                 <div className="col-span-4">
                     <h1 class="text-lg font-semibold">Bernard</h1>
                 </div>

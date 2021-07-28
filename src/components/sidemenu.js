@@ -2,7 +2,7 @@ import SideMenuItem from "./sidemenuitem";
 
 function SideMenu(){
     return(
-        <div className="w-24 text-sm h-full bg-off-gray-light">
+        <div className="w-full text-sm h-full bg-off-gray-light">
             <ul>
                 <li>
                     <SideMenuItem name="Board" link="/"/>

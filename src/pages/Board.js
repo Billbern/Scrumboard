@@ -6,9 +6,9 @@ class Board extends Component {
     render(){
         return(
             <main className="bg-off-white h-full">
-                <div className="py-4 px-8 relative h-full">
+                <div className="py-4 px-12 relative h-full">
                     <InfoBar/>
-                    <section className="h-9/10">
+                    <section className="h-sub">
                         <div className="h-full grid grid-cols-9 gap-12">
                             <div className="col-span-2">
                                 <TaskView name="To do" />
