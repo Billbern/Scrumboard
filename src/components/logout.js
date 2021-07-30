@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+
+// to handle session deletion
+// todo
 function Logout() {
 
     const [timeleft, setTimeleft] = useState(30);
@@ -10,12 +13,14 @@ function Logout() {
     });
 
     function countDown(){
+        let timedOut;
         if(timeleft > 0){
-            setTimeout(() => {
+            timedOut = setTimeout(() => {
                 setTimeleft(timeleft-1);
             }, 1000);
         }else{
             setDone("Done");
+            clearTimeout(timedOut);
         }
     }
     

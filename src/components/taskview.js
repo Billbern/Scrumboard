@@ -1,28 +1,38 @@
 import { Component } from "react";
+import { Context } from "../utils/store";
+import TaskContainer from "./taskcontainer";
 
-
+// display global state tasks associated to a name
 class TaskView extends Component {
-    constructor(props){
-        super(props);
-        this.name = this.props.name;
-        this.points = "24 pts";
-        this.styles = {
-            "To do": ["bg-off-wine-dark", "to-off-wine-light"], 
-            "In progress": ["bg-off-gray-dark", "to-off-gray-light"], 
-            "In test / review": ["bg-off-pink-dark", "to-off-pink-light"],
-            "Done": ["bg-off-cyan-dark", "to-off-cyan-light"]
-        }
-    }
-    render(){
-        return(
-            <div className="h-full">
-                <div className="flex items-center justify-between mb-2">
-                    <h4 className={`${this.styles[this.name][0]}  text-white py-1 px-2 rounded shadow-sm`}>{this.name}</h4>
-                        <span className="text-gray-500">{this.points}</span>
-                </div>
-                <div className={`h-9/10 bg-gradient-to-b from-transparent ${this.styles[this.name][1]}`}>
 
+    // access app context
+    static contextType = Context;
+
+    render(){
+
+        // access global state from context
+        const { state } = this.context;
+
+        return(
+            <div className="h-full bg-off-white">
+                <div className="flex items-center justify-between mb-2">
+                    <h4 className={`${state.styles[this.props.name][0]}  text-white py-1 px-2 rounded shadow-sm`}>{this.props.name} ({ state.tasks.filter( task => { return task.stage === this.props.name.replace(/\s/g, '').toLowerCase() }).length })</h4>
+                        <span className="text-gray-500">
+                            {/* access the number global state tasks associated to this name */}
+                            {   state.tasks.filter((item)=>{
+                                    return item.stage === this.props.name.replace(/\s/g, '').toLowerCase() 
+                                })
+                                .reduce((accum, item)=> {
+                                    return accum + parseInt(item.reward) 
+                                }, 0)
+                            } 
+                            pts
+                        </span>
                 </div>
+
+                {/* display global state tasks associated with this name */}
+                <TaskContainer name={this.props.name} color={state.styles[this.props.name][1]} />
+                
             </div>
         )
     }
