@@ -16,13 +16,13 @@ module.exports = {
             transparent: 'transparent',
             current: 'currentColor',
             off: {
-                white: "#e9eaec",
+                white: "#e8e8e8",
                 wine: { dark: "#85104e", light: "#e2d8e0" },
-                gray: { dark: "#212121", light: "#d8dadc" },
-                pink: { hot: "#e60047", dark: "#fa335c", light: "#ebd7e0" },
+                gray: { dark: "#212121", light: "#d8dadc", 'dark2': "#4c4c4c" },
+                pink: { hot: "#ec615b", dark: "#fa335c", light: "#ebd7e0" },
                 voilet: { dark: "#5e35b0", light: "#dedcea" },
                 yellow: { dark: "#ffb400", light: "#eeead9" },
-                blue: "#2d68be",
+                blue: "#5222d0",
                 cyan: {
                     hot: "#4ec1e8",
                     dark: "#249c90",
@@ -982,6 +982,9 @@ module.exports = {
         width: ['responsive'],
         wordBreak: ['responsive'],
         zIndex: ['responsive', 'focus-within', 'focus'],
+        extend:{
+            display: ['group-hover'],
+        },
     },
     plugins: [
         require('@tailwindcss/forms')({

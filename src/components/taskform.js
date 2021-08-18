@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../utils/store";
 import moment from "moment";
+import axios from 'axios';
 
 
 // display form and handle data 
@@ -17,22 +18,30 @@ function TaskForm(){
 
     // handle data from form on submission
     function handleSubmit(e){
+        
         if(title && tag && reward && timed){
-            dispatch({
-                type: "ADD_TASK", 
-                payload: { 
-                    id: `F-${(state.tasks.length-1) + 100}`, 
-                    author: state.user.pic, stage: "todo", 
-                    title: title, tag: tag, 
-                    reward: reward, timed: timed
-                } 
-            });
-            setTag("");
-            setTitle("");
-            setTimed("");
-            setReward("");
+            const payload = { id: `F-${new Date().getTime() % 1000}`, stage: "todo", 
+                            title: title, tag: tag, reward: reward, timed: timed 
+                        };
+            sendTask(payload); setTag(""); setTitle("");setTimed("");setReward("");
         }
         e.preventDefault();
+    }
+
+
+
+    async function sendTask(payload) {
+        try {
+            const {data, status} = await axios.post('/task', payload);
+            if(status === 200){
+                dispatch({ type: "ADD_TASK", 
+                     payload: data
+                });
+            }
+        } catch (err) {
+            console.error(err);
+
+        }
     }
 
     // control input and component state

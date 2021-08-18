@@ -23,20 +23,19 @@ function BoardHead(){
     useEffect(()=>{
         dispatch({type: 'SET_ENDDATE'});
         dispatch({type: 'SET_REWARDS'});
-
-    }, [state.tasks])
+    }, [state.tasks, dispatch])
 
     return(
         <section className="mb-11">
             <div className="grid grid-cols-8 gap-0.5">
                 <div className="col-span-4">
-                    <h1 className="text-lg font-semibold">{ state.user.name }</h1>
+                    <h1 className="text-lg font-semibold uppercase"> Welcome { localStorage.getItem('username') }</h1>
                 </div>
                 <div className="col-span-4">
                     <div className="flex justify-end">
-                        <button onClick={toggleSidebar} className="bg-green-500 hover:bg-off-cyan-dark text-sm text-white rounded shadow-lg active:shadow-sm py-1 px-2 mr-4">
+                        <button onClick={toggleSidebar} className="bg-green-500 hover:bg-off-cyan-dark text-sm text-white rounded shadow-sm hover:shadow-lg py-1 px-2 mr-4">
                             {
-                                state.button.sidebar ?
+                                state.user.button.sidebar ?
                                     <>
                                         <FontAwesomeIcon className="mr-2" icon={faTimes}/>
                                         Close
@@ -49,7 +48,7 @@ function BoardHead(){
 
                             }
                         </button>
-                        <button className="bg-white shadow-lg active:shadow-sm rounded px-2">
+                        <button className="bg-white shadow-sm hover:shadow-lg rounded px-2">
                             <FontAwesomeIcon className="text-off-gray-dark" icon={faFilter}/>
                         </button>
                     </div>
@@ -62,7 +61,9 @@ function BoardHead(){
                                 <path d="m489.943 262.987c-0.074-20.641-13.396-39.656-37.538-53.558-22.44-12.922-51.979-20.039-83.173-20.039-31.193 0-60.731 7.117-83.172 20.039-24.209 13.94-37.541 33.022-37.541 53.729v0.016 92.406c0 40.801 53.023 72.762 120.713 72.762s120.714-31.961 120.714-72.762v-92.594h-3e-3zm-20.997 46.436c0 28.323-45.663 52.252-99.714 52.252-54.05 0-99.713-23.928-99.713-52.252v-4.755c21.566 18.99 57.828 31.225 99.713 31.225s78.147-12.235 99.714-31.225v4.755zm-172.406-81.795c19.303-11.116 45.119-17.237 72.692-17.237s53.39 6.122 72.693 17.237c17.172 9.888 27.021 22.839 27.021 35.531 0 28.043-45.663 51.734-99.714 51.734-54.05 0-99.713-23.691-99.713-51.734 1e-3 -12.692 9.849-25.643 27.021-35.531zm72.692 179.715c-54.05 0-99.713-23.704-99.713-51.762v-4.353c21.566 19.124 57.828 31.447 99.713 31.447s78.147-12.322 99.714-31.447v4.353c0 28.058-45.663 51.762-99.714 51.762z"/>
                             </svg>
                             <span className="mr-0.5">
-                                { state.stats.rewards }
+                                { 
+                                    state.stats.rewards    
+                                }
                             </span>
                             pts
                         </span>
@@ -104,10 +105,7 @@ function BoardHead(){
                             <span className="ml-0.5">
                                 {/* display enddate or today */}
                                 {
-                                    state.stats.enddate ?
-                                        moment(state.stats.enddate).format("MMM DD")
-                                    :   
-                                        moment(today).format("MMM DD")
+                                    moment(state.stats.enddate).format("MMM DD")
                                 }
                             </span>, 
                             <span>
@@ -121,10 +119,8 @@ function BoardHead(){
                             </svg>
                             <span className="mr-0.5">
                                 {/* days till all task are done */}
-                                {   state.stats.enddate ?
-                                        moment(state.stats.enddate).diff(moment(today), "days")
-                                    :
-                                        0
+                                {
+                                    moment(state.stats.enddate).diff(moment(today), "days")
                                 }
                             </span> days
                         </span>

@@ -2,6 +2,25 @@
 
 const Reducer = (state, action) =>{
     switch (action.type){
+        // Add task from Database
+        case 'SET_TASKS':
+            return{
+                ...state,
+                tasks: [
+                    ...action.payload
+                ]
+            }
+        case 'SET_USER':{
+            return{
+                ...state,
+                user: {
+                    ...state.user,
+                    isLoggedIn: action.payload.loggedin,
+                    name: action.payload.name
+                }
+            }
+        }
+
         // Add task to state tasks
         case 'ADD_TASK':
             return {
@@ -25,18 +44,24 @@ const Reducer = (state, action) =>{
         case 'TOGGLE_SIDEBAR':
             return {
                 ...state,
-                button: {
-                    ...state.button,
-                    sidebar: !state.button.sidebar
+                user: {
+                    ...state.user,
+                    button: {
+                        ...state.user.button,
+                        sidebar: !state.user.button.sidebar
+                    }
                 }
             }
         //set switch between Done and Backlog
         case 'TOGGLE_EXTRAS':
             return {
                 ...state,
-                button: {
-                    ...state.button,
-                    extras: !state.button.extras
+                user: {
+                    ...state.user,
+                    button: {
+                        ...state.user.button,
+                        extras: !state.user.button.extras
+                    }
                 }
             }
         
@@ -47,13 +72,10 @@ const Reducer = (state, action) =>{
                 stats: {
                     ...state.stats,
                     enddate: state.tasks.length >= 2 
-                        ? state.tasks.sort(function(x,y){ 
-                            if(!x.timed){
-                                x.timed = new Date();
-                            }
+                        ? [...state.tasks].sort(function(x,y){
                             return new Date(y.timed) - new Date(x.timed)
                         })[0].timed 
-                        :  ''
+                        : state.tasks.length === 1 ? state.tasks[0].timed : new Date()
                 }
             }
         

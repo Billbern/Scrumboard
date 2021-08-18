@@ -3,25 +3,23 @@ import Reducer from './reducer';
 
 // Create State
 const initialState = {
-    tasks: [
-        {id: "", title: "", author: "", tag: "",  timed: '2021-06-19' , reward: "", stage: ""}
-        
-    ],
-    stats: { enddate: '', rewards: 0 },
-    styles: {
-        "To do": ["bg-off-wine-dark", "to-off-wine-light"], 
-        "In progress": ["bg-off-gray-dark", "to-off-gray-light"], 
-        "In test / review": ["bg-off-pink-dark", "to-off-pink-light"],
-        "Done": ["bg-off-cyan-dark", "to-off-cyan-light"],
-        "Backlog": ["bg-yellow-500", "to-off-yellow-light"]
-    },
+    url: 'http://127.0.0.1:2200/api/v1/',
+    tasks: [],
+    stats: { enddate: new Date(), rewards: 0 },
     user: {
-        name: "Bernard",
-        pic: "" 
-    },
-    button: {
-        sidebar: false,
-        extras: false,
+        isLoggedIn: false,
+        name: "",
+        styles: {
+            "To do": ["bg-off-wine-dark", "to-off-wine-light"], 
+            "In progress": ["bg-off-gray-dark", "to-off-gray-light"], 
+            "In test / review": ["bg-off-pink-dark", "to-off-pink-light"],
+            "Done": ["bg-off-cyan-dark", "to-off-cyan-light"],
+            "Backlog": ["bg-yellow-500", "to-off-yellow-light"]
+        },
+        button: {
+            sidebar: false,
+            extras: false,
+        }
     }
 };
 
