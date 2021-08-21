@@ -1,43 +1,41 @@
 import axios from 'axios';
-import { useState, useContext } from "react";
-import { Context } from "../utils/store";
 import moment from 'moment';
+import { useState } from "react";
+
 
 export default function LoginForm() {
 
-    const [ identity, setIdentity ] = useState('');
-    const [ passwd, setPasswd ] = useState('');
+    const [identity, setIdentity] = useState('');
+    const [passwd, setPasswd] = useState('');
 
-    const {dispatch} = useContext(Context);
 
-    function handleInput(e){
-        if(e.target.name === 'identity'){
+    function handleInput(e) {
+        if (e.target.name === 'identity') {
             setIdentity(e.target.value);
-        }else{
+        } else {
             setPasswd(e.target.value);
         }
     }
 
-    async function handleFormSubmit(e){
+    async function handleFormSubmit(e) {
         e.preventDefault();
-        if(identity && passwd){
-            let userData = {username: identity, password: passwd};
+        if (identity && passwd) {
+            let userData = { username: identity, password: passwd };
             try {
-                const {data, status} = await axios.post('/login', userData)
-               if(status === 200){
-                   dispatch({type: 'SET_USER', payload: {loggedin: data.loggedIn, name: data.user }});
-                   document.cookie = `carrier=${data.user}; expires=${moment().add(8, 'hours')}; SameSite=Strict; Secure`;
-                   localStorage.setItem('user_logged', true);
-                   localStorage.setItem('username', data.user);
-                   window.location.href = '/';
-               }else{
-                   console.log(data);
-               }
+                const { data, status } = await axios.post('/login', userData)
+                if (status === 200) {
+                    document.cookie = `carrier=${data.user}; expires=${moment().add(8, 'hours')}; SameSite=Strict; Secure`;
+                    localStorage.setItem('user_logged', true);
+                    localStorage.setItem('username', data.user);
+                    window.location.href = '/';
+                } else {
+                    console.log(data);
+                }
             } catch (err) {
                 console.error(err);
             }
         }
-        setIdentity('');setPasswd('');
+        setIdentity(''); setPasswd('');
     }
 
     return (

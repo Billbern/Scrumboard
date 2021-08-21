@@ -1,6 +1,6 @@
 import { Component } from "react";
-import LoginForm from "../components/loginform";
-import RegisterForm from "../components/registerform";
+import LoginForm from "../components/forms/loginform";
+import RegisterForm from "../components/forms/registerform";
 
 export default class AuthPage extends Component {
 

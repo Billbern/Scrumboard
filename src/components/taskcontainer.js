@@ -1,14 +1,13 @@
-import { Component } from 'react';
 import axios from 'axios';
-import { Context } from "../utils/store";
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateTask, addTasks, setEndate, setRewards } from '../utils/reducer';
 import Task from "./task";
-
+import getData from '../utils/fetchtasksdata';
 
 // acts as a container for global state tasks 
-export default class TaskContainer extends Component {
+class TaskContainer extends Component {
 
-    // access app context
-    static contextType = Context;
 
     constructor(props){
         super(props);
@@ -25,7 +24,8 @@ export default class TaskContainer extends Component {
         try {
             const {status} = await axios.put(`/task/${id}`, { stage: stageName });
             if(status === 200){
-                this.context.dispatch({ type: 'UPDATE_TASK', payload: {id: id, stage: stageName}});
+                this.props.updateTask({id: id, stage: stageName});
+                getData(this.props.addTasks, this.props.setEndate(), this.props.setRewards());
             }
         } catch (err) {
             console.error(err);
@@ -52,15 +52,12 @@ export default class TaskContainer extends Component {
 
     render(){
 
-        // access global state and functions
-        const { state } = this.context;
-
         return(
             <div className={`h-9/10 w-full px-1 pt-3 bg-gradient-to-b from-transparent ${this.props.color}`} onDrop={ this.handleOnDrop } onDragOver={ this.handleAllowDrop }>
                 {     
-                    state.tasks.length !== 0
+                    this.props.state.tasks.length !== 0
                     ?
-                        state.tasks.map((item, key)=>{
+                        this.props.state.tasks.map((item, key)=>{
                             
                             return  item.stage === this.props.name.replace(/\s/g, '').toLowerCase() 
                                     ? <Task key={key} data={item} dragStart={this.handleDragStart}  /> 
@@ -73,3 +70,21 @@ export default class TaskContainer extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state =>{
+    return {
+        state: state.scrumer
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        updateTask: () => dispatch(updateTask),
+        addTasks: (data) => dispatch(addTasks(data)),
+        setEndate: () => dispatch(setEndate),
+        setRewards: () => dispatch(setRewards)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskContainer);

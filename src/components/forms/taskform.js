@@ -1,14 +1,15 @@
-import React, { useState, useContext } from "react";
-import { Context } from "../utils/store";
-import moment from "moment";
 import axios from 'axios';
+import moment from "moment";
+import { useState } from "react";
+import { connect } from "react-redux";
+import getData from '../../utils/fetchtasksdata';
+import { addTasks, setEndate, setRewards } from "../../utils/reducer";
+
 
 
 // display form and handle data 
-function TaskForm(){
+function TaskForm(props){
 
-    // access global state from app context
-    const {state, dispatch} = useContext(Context);
 
     // access component state and functions 
     const [title, setTitle] = useState("");
@@ -28,25 +29,20 @@ function TaskForm(){
         e.preventDefault();
     }
 
-
-
     async function sendTask(payload) {
         try {
-            const {data, status} = await axios.post('/task', payload);
+            const { status } = await axios.post('/task', payload);
             if(status === 200){
-                dispatch({ type: "ADD_TASK", 
-                     payload: data
-                });
+                getData(props.addTasks, props.setEndate(), props.setRewards());
             }
         } catch (err) {
             console.error(err);
-
         }
     }
 
     // control input and component state
     function handleChange(e, name){
-        if(name=== 'title'){
+        if(name === 'title'){
             setTitle(e.target.value);
         }else if(name === 'tag'){
             setTag(e.target.value);
@@ -88,4 +84,12 @@ function TaskForm(){
     );
 }
 
-export default TaskForm;
+const mapDispatchToProps = dispatch =>{
+    return {
+        addTasks: (data) => dispatch(addTasks(data)),
+        setEndate: () => dispatch(setEndate()),
+        setRewards: () => dispatch(setRewards()),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(TaskForm);

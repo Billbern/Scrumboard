@@ -15,7 +15,7 @@ export default function RegisterForm() {
             if(name && mail && passwd){
                 const bodyData = {username: name, email: mail, password: passwd};
                 try {
-                    const {data, status} = await axios.post('/register', bodyData);
+                    const {status} = await axios.post('/register', bodyData);
                     if(status === 200){
                         window.location.href = '/login';
                     }
