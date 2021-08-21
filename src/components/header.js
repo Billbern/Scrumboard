@@ -9,7 +9,7 @@ function Header(props) {
 
     async function handleLogOut() {
         try {
-            const { status } = await axios.get('http://localhost:2200/api/v1/logout');
+            const { status } = await axios.get('/logout');
             if (status === 200) {
                 props.addUser({ loggedin: false, name: '' });
                 document.cookie = `carrier=; expires=${moment().subtract(8, 'hours')}; SameSite=Strict; Secure`;
