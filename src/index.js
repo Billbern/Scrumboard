@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 
 
-axios.defaults.baseURL = "http://localhost:2200/api/v1";
+axios.defaults.baseURL = process.env.REACT_APP_API_ROUTE;
 axios.defaults.withCredentials = true;
 axios.defaults.headers = {'Access-Control-Allow-Origin': '*'}
 
