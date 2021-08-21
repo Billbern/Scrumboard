@@ -11,6 +11,7 @@ import App from './App';
 
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ROUTE;
+console.log(process.env.REACT_APP_API_ROUTE);
 axios.defaults.withCredentials = true;
 axios.defaults.headers = {'Access-Control-Allow-Origin': '*'}
 
