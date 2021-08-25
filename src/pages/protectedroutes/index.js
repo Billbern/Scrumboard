@@ -1,13 +1,9 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
-import getData from "../../utils/fetchtasksdata";
+import { getData, getLogs } from "../../utils/fetchtasksdata";
 import SideMenu from "../../components/sidemenu";
-import {
-    addTasks,
-    addUser, setEndate,
-    setRewards
-} from "../../utils/reducer";
+import { addUser, addTasks, setEndate, setRewards, addLogs } from "../../utils/reducer";
 import Header from "../../components/header";
 import Settings from "./Settings";
 import Board from "./Board";
@@ -20,7 +16,8 @@ class ProtectedRoutes extends Component {
 
     componentDidMount() {
         this.props.addUser(userData);
-        getData(this.props.addTasks, this.props.setEndate, this.props.setRewards);
+        getData(this.props);
+        getLogs(this.props);
     }
 
     render() {
@@ -54,10 +51,11 @@ class ProtectedRoutes extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setEndate: () => dispatch(setEndate()),
-        setRewards: () => dispatch(setRewards()),
-        addTasks: (data) => dispatch(addTasks(data)),
         addUser: (data) => dispatch(addUser(data)),
+        addTasks: (data) => dispatch(addTasks(data)), 
+        setEndate: () => dispatch(setEndate()), 
+        setRewards: () => dispatch(setRewards()), 
+        addLogs: (data) => dispatch(addLogs(data)),
     }
 }
 

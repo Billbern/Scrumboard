@@ -1,10 +1,9 @@
 import axios from 'axios';
 import moment from "moment";
 import { useState } from "react";
-import { connect } from "react-redux";
-import getData from '../../utils/fetchtasksdata';
-import { addTasks, setEndate, setRewards } from "../../utils/reducer";
-
+import { connect } from 'react-redux';
+import { getData } from '../../utils/fetchtasksdata';
+import { addTasks, setEndate, setRewards } from '../../utils/reducer';
 
 
 // display form and handle data 
@@ -33,7 +32,7 @@ function TaskForm(props){
         try {
             const { status } = await axios.post('/task', payload);
             if(status === 200){
-                getData(props.addTasks, props.setEndate(), props.setRewards());
+                getData(props);
             }
         } catch (err) {
             console.error(err);
@@ -41,14 +40,14 @@ function TaskForm(props){
     }
 
     // control input and component state
-    function handleChange(e, name){
-        if(name === 'title'){
+    function handleChange(e){
+        if(e.target.name === 'title'){
             setTitle(e.target.value);
-        }else if(name === 'tag'){
+        }else if(e.target.name === 'tag'){
             setTag(e.target.value);
-        }else if(name=== 'reward'){
+        }else if(e.target.name=== 'reward'){
             setReward(e.target.value);
-        }else if(name=== 'timed'){
+        }else if(e.target.name=== 'timed'){
             setTimed(e.target.value);
         }
     }
@@ -56,23 +55,23 @@ function TaskForm(props){
     return(
         <div className="pt-2 px-4">
             <h2 className="text-lg font-semibold text-center mb-5">Add Task</h2>
-            <form onSubmit={handleSubmit} className="w-full border-2 py-2 px-3">
+            <form onSubmit={ handleSubmit } className="w-full border-2 py-2 px-3">
                 <div className="w-full grid grid-cols-6 gap-3">
                     <div className="w-full col-span-6 ">
                         <label htmlFor="title">Title</label>
-                        <input className="w-full form-input border-gray-600 bg-gray-200 rounded py-0.5 mt-1" onChange={ e => handleChange(e, "title") } type="text" name="title" value={title} />
+                        <input className="w-full form-input border-gray-600 bg-gray-200 rounded py-0.5 mt-1" onChange={  handleChange } type="text" name="title" value={title} />
                     </div>
                     <div className="w-full col-span-3">
                         <label htmlFor="tag">Tag</label>
-                        <input className="w-full form-input border-gray-600 bg-gray-200 rounded py-0.5 mt-1" onChange={e => handleChange(e, "tag")} type="text" name="tag" value={tag} />
+                        <input className="w-full form-input border-gray-600 bg-gray-200 rounded py-0.5 mt-1" onChange={ handleChange} type="text" name="tag" value={tag} />
                     </div>
                     <div className="w-full col-span-3">
                         <label htmlFor="reward">Reward</label>
-                        <input className="w-full form-input border-gray-600 bg-gray-200 rounded py-0.5 mt-1" onChange={e => handleChange(e, "reward")} type="number" min="1" max="100" name="reward" value={reward} />
+                        <input className="w-full form-input border-gray-600 bg-gray-200 rounded py-0.5 mt-1" onChange={ handleChange} type="number" min="1" max="100" name="reward" value={reward} />
                     </div>
                     <div className="w-full col-span-4">
                         <label htmlFor="timed">End Date</label>
-                        <input className="w-full form-input border-gray-600 rounded py-0.5 px-2 mt-1" onChange={e => handleChange(e, "timed")} type="date" name="timed" value={timed} pattern="\d{4}-\d{2}-\d{2}" min={moment(new Date()).format("YYYY-MM-DD")} />
+                        <input className="w-full form-input border-gray-600 rounded py-0.5 px-2 mt-1" onChange={ handleChange} type="date" name="timed" value={timed} pattern="\d{4}-\d{2}-\d{2}" min={moment(new Date()).format("YYYY-MM-DD")} />
                     </div>
                 </div>
 
@@ -84,11 +83,11 @@ function TaskForm(props){
     );
 }
 
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch => {
     return {
-        addTasks: (data) => dispatch(addTasks(data)),
-        setEndate: () => dispatch(setEndate()),
-        setRewards: () => dispatch(setRewards()),
+        addTasks: (data) => dispatch(addTasks(data)), 
+        setEndate: () => dispatch(setEndate()), 
+        setRewards: () => dispatch(setRewards())
     }
 }
 

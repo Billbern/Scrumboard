@@ -28,23 +28,18 @@ export const scrumerSlice = createSlice({
     name: 'scrumer',
     reducers: {
 
-        // Add tasks
-        addTasks: (state, action) => {
-            state.tasks = [...action.payload]
-        },
-
-        // add user
-        addUser: (state, action) => {
-            state.user.isLoggedIn = action.payload.loggedin;
-            state.user.name= action.payload.name;
-        },
-
-        // Add task to state tasks
+        /**
+         * Add single task to the global store
+         * @param {*} payload 
+         */
         addTask: (state, action) => {
             state.tasks = state.tasks.concat(action.payload)
         },
 
-        // Update state task on movement
+        /**
+         * Update tasks content in the global store
+         * @param {*} payload 
+         */
         updateTask: (state, action) => {
 
             state.tasks = state.tasks.filter(task => {
@@ -55,40 +50,79 @@ export const scrumerSlice = createSlice({
             })
         },
 
-        //set state of sidebar
+        /**
+         * Add tasks to the global store
+         * @param {*} payload 
+         */
+        addTasks: (state, action) => {
+            state.tasks = [...action.payload];
+        },
+
+        /**
+         * Add tasks logs to the global store
+         * @param {*} payload 
+         */
+        addLogs: (state, action) => {
+            state.logs = [...action.payload];
+        },
+
+
+        /**
+         * Add User to the global store
+         * @param {*} payload 
+         */
+        addUser: (state, action) => {
+            state.user.isLoggedIn = action.payload.loggedin;
+            state.user.name = action.payload.name;
+        },
+
+        /**
+         * Set enddate in the global store
+         * @param {*} payload 
+         */
+        setEndate: (state) => {
+            state.stats.enddate = state.tasks.length >= 2
+                ? [...state.tasks].sort(function (x, y) {
+                    return moment(y.timed).subtract(moment(x.timed))
+                })[0].timed
+                : state.tasks.length === 1 ? state.tasks[0].timed : `${moment().format('YYYY-MM-DD')}`
+        },
+
+        /**
+         * Set rewards in the global store
+         * @param {*} payload 
+         */
+        setRewards: (state) => {
+            state.stats.rewards = state.tasks.reduce((accum, item) => {
+                if (item.reward) {
+                    return accum + parseInt(item.reward)
+                }
+                return accum
+            }, 0)
+
+        },
+
+        /**
+         * Set side toggle state in the global store
+         * @param {*} payload 
+         */
         toggleSideBar: (state) => {
             state.user.button.sidebar = !state.user.button.sidebar
         },
 
-        //set switch between Done and Backlog
+        /**
+         * Switch toggle state between Done and Backlogs in the global store
+         * @param {*} payload 
+         */
         toggleExtras: (state) => {
-            state.user.button.extras= !state.user.button.extras
+            state.user.button.extras = !state.user.button.extras
         },
 
-        // set ending date for tasks 
-        setEndate: (state) => {
-
-            state.stats.enddate = state.tasks.length >= 2
-                    ? [...state.tasks].sort(function (x, y) {
-                        return moment(y.timed).subtract(moment(x.timed))
-                    })[0].timed
-                    : state.tasks.length === 1 ? state.tasks[0].timed : `${moment().format('YYYY-MM-DD')}`
-        },
-
-        // set total number of rewards 
-        setRewards: (state) => {
-            state.stats.rewards = state.tasks.reduce((accum, item) => {
-                    if (item.reward) {
-                        return accum + parseInt(item.reward)
-                    }
-                    return accum
-                }, 0)
-            
-        }
 
     }
 })
 
-export const { addTask, addTasks, updateTask, addUser, setRewards, setEndate, toggleExtras, toggleSideBar } = scrumerSlice.actions;
+export const { addTask, addTasks, updateTask, addLogs,
+     addUser, setRewards, setEndate, toggleExtras, toggleSideBar } = scrumerSlice.actions;
 
 export default scrumerSlice.reducer;

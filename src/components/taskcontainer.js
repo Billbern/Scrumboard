@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateTask, addTasks, setEndate, setRewards } from '../utils/reducer';
 import Task from "./task";
-import getData from '../utils/fetchtasksdata';
+import { getData } from '../utils/fetchtasksdata';
 
 // acts as a container for global state tasks 
 class TaskContainer extends Component {
@@ -25,7 +25,7 @@ class TaskContainer extends Component {
             const {status} = await axios.put(`/task/${id}`, { stage: stageName });
             if(status === 200){
                 this.props.updateTask({id: id, stage: stageName});
-                getData(this.props.addTasks, this.props.setEndate(), this.props.setRewards());
+                getData(this.props);
             }
         } catch (err) {
             console.error(err);
@@ -80,10 +80,10 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateTask: () => dispatch(updateTask),
+        updateTask: () => dispatch(updateTask()),
         addTasks: (data) => dispatch(addTasks(data)),
-        setEndate: () => dispatch(setEndate),
-        setRewards: () => dispatch(setRewards)
+        setEndate: () => dispatch(setEndate()),
+        setRewards: () => dispatch(setRewards())
     }
 }
 
