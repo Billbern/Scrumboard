@@ -2,8 +2,8 @@ import axios from 'axios';
 import moment from "moment";
 import { useState } from "react";
 import { connect } from 'react-redux';
-import { getData } from '../../utils/fetchtasksdata';
-import { addTasks, setEndate, setRewards } from '../../utils/reducer';
+import { getData, getLogs } from '../../utils/fetchtasksdata';
+import { addTask, addTasks, setEndate, setRewards, addLogs } from '../../utils/reducer';
 
 
 // display form and handle data 
@@ -29,10 +29,12 @@ function TaskForm(props){
     }
 
     async function sendTask(payload) {
+        props.addTask({...payload, owner: {username: localStorage.getItem('username')}});
         try {
             const { status } = await axios.post('/task', payload);
             if(status === 200){
                 getData(props);
+                getLogs(props, 0);
             }
         } catch (err) {
             console.error(err);
@@ -85,9 +87,11 @@ function TaskForm(props){
 
 const mapDispatchToProps = dispatch => {
     return {
+        addTask: (data) => dispatch(addTask(data)),
         addTasks: (data) => dispatch(addTasks(data)), 
         setEndate: () => dispatch(setEndate()), 
-        setRewards: () => dispatch(setRewards())
+        setRewards: () => dispatch(setRewards()),
+        addLogs: (data) => dispatch(addLogs(data))
     }
 }
 

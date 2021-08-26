@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import BoardHead from "../../components/boardhead";
+import HeatMap from "../../components/charts/heatmap";
 import BarChart from "../../components/charts/barchart";
 import PieChart from "../../components/charts/piechart";
 import LogContainer from "../../components/logcontainer";
@@ -29,7 +30,7 @@ class Feed extends Component {
                                         </div>
                                     </div>
                                     <div className="h-1/2 bg-white border-2 border-off-gray-light rounded-lg">
-                                        
+                                        <HeatMap/>
                                     </div>
                                 </div>
                             </div>

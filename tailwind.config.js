@@ -19,7 +19,7 @@ module.exports = {
             transparent: 'transparent',
             current: 'currentColor',
             off: {
-                white: {one: "#e8e8e8", two: "#eceef1"},
+                white: {one: "#efefef", two: "#eceef1"},
                 wine: { dark: "#85104e", light: "#e2d8e0" },
                 gray: { dark: "#212121", light: "#d8dadc", 'dark2': "#4c4c4c" },
                 pink: { hot: "#ec615b", dark: "#fa335c", light: "#ebd7e0" },

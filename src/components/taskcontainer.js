@@ -1,31 +1,37 @@
 import axios from 'axios';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTask, addTasks, setEndate, setRewards } from '../utils/reducer';
+import { getData, getLogs } from '../utils/fetchtasksdata';
+import {
+    updateTask,
+    addTasks,
+    setEndate,
+    setRewards, addLogs
+} from '../utils/reducer';
 import Task from "./task";
-import { getData } from '../utils/fetchtasksdata';
 
 // acts as a container for global state tasks 
 class TaskContainer extends Component {
 
 
-    constructor(props){
+    constructor(props) {
         super(props);
         // make class methods
         this.updateData = this.updateData.bind(this);
         this.handleOnDrop = this.handleOnDrop.bind(this);
         this.handleDragStart = this.handleDragStart.bind(this);
         this.handleAllowDrop = this.handleAllowDrop.bind(this);
-        
+
     }
 
-    async updateData(id){
+    async updateData(id) {
         const stageName = this.props.name.replace(/\s/g, '').toLowerCase();
+        this.props.updateTask({ id: id, stage: stageName });
         try {
-            const {status} = await axios.put(`/task/${id}`, { stage: stageName });
-            if(status === 200){
-                this.props.updateTask({id: id, stage: stageName});
+            const { status } = await axios.put(`/task/${id}`, { stage: stageName });
+            if (status === 200) {
                 getData(this.props);
+                getLogs(this.props);
             }
         } catch (err) {
             console.error(err);
@@ -33,38 +39,37 @@ class TaskContainer extends Component {
     }
 
     // handle when child start moving 
-    handleDragStart(e, id){
+    handleDragStart(e, id) {
         e.dataTransfer.setData("task", id);
         e.dataTransfer.effectAllowed = "move";
     }
 
     // allow tasks to be received in a container
-    handleAllowDrop(e){
+    handleAllowDrop(e) {
         e.dataTransfer.dropEffect = "move";
         e.preventDefault();
     }
 
     // handle what happens when a task is added to container
-    handleOnDrop(e){
+    handleOnDrop(e) {
         this.updateData(e.dataTransfer.getData('task'));
         e.preventDefault();
     }
 
-    render(){
+    render() {
 
-        return(
-            <div className={`h-9/10 w-full px-1 pt-3 bg-gradient-to-b from-transparent ${this.props.color}`} onDrop={ this.handleOnDrop } onDragOver={ this.handleAllowDrop }>
-                {     
+        return (
+            <div className={`h-9/10 w-full px-1 pt-3 bg-gradient-to-b from-transparent ${this.props.color}`} onDrop={this.handleOnDrop} onDragOver={this.handleAllowDrop}>
+                {
                     this.props.state.tasks.length !== 0
-                    ?
-                        this.props.state.tasks.map((item, key)=>{
-                            
-                            return  item.stage === this.props.name.replace(/\s/g, '').toLowerCase() 
-                                    ? <Task key={key} data={item} dragStart={this.handleDragStart}  /> 
-                                    : ''
-                            
+                        ?
+                        this.props.state.tasks.map((item, key) => {
+
+                            return item.stage === this.props.name.replace(/\s/g, '').toLowerCase()
+                                ? <Task key={key} data={item} dragStart={this.handleDragStart} />
+                                : ''
                         })
-                    : ''
+                        : ''
                 }
             </div>
         );
@@ -72,7 +77,7 @@ class TaskContainer extends Component {
 }
 
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
     return {
         state: state.scrumer
     }
@@ -80,10 +85,11 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateTask: () => dispatch(updateTask()),
+        updateTask: (data) => dispatch(updateTask(data)),
         addTasks: (data) => dispatch(addTasks(data)),
         setEndate: () => dispatch(setEndate()),
-        setRewards: () => dispatch(setRewards())
+        setRewards: () => dispatch(setRewards()),
+        addLogs: (data) => dispatch(addLogs(data))
     }
 }
 

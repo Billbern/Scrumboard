@@ -17,7 +17,7 @@ class ProtectedRoutes extends Component {
     componentDidMount() {
         this.props.addUser(userData);
         getData(this.props);
-        getLogs(this.props);
+        getLogs(this.props, 0);
     }
 
     render() {

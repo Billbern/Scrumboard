@@ -13,9 +13,9 @@ async function getData(props) {
         console.error(err);
     }
 }
-async function getLogs(props) {
+async function getLogs(props, n=0) {
     try {
-        const { data, status } = await axios.get('/logs');
+        const { data, status } = await axios.get(`/logs/${n}`);
         if (status === 200 && (data.length > 0)) {
             props.addLogs(data);
         }
