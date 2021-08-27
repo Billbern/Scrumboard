@@ -4,14 +4,14 @@ const { Component, createRef } = require("react");
 
 
 class BarChart extends Component {
-    
+
     static timeout = null;
-    
+
     constructor() {
         super();
         this.barRef = createRef();
     }
-    
+
     componentDidMount() {
         this.timeout = setTimeout(() => {
             const newData = this.groupData(this.props.state);
@@ -48,36 +48,33 @@ class BarChart extends Component {
 
 
     createHist(data) {
-        const margin = { top: 16, right: 24, bottom: 16, left: 24 };
-        const width = parseInt(d3.select('#barCon').style('width')) - 24;
-        const height = parseInt(d3.select('#barCon').style('height')) - 16;
+        const color = ["#bc5090", '#003f5c', '#58508d', '#249c90']
+        const margin = { top: 32, right: 24, bottom: 32, left: 48 };
+        const width = parseInt(d3.select('#barCon').style('width')) - margin.left - margin.right;
+        const height = parseInt(d3.select('#barCon').style('height')) - margin.bottom - margin.top;
+        let display = () => {
+            d3.selectAll('rect.tasks').transition().ease(d3.easeCubicInOut).duration(1000)
+                .attr('y', d => y(d.value)).attr('height', d => height - y(d.value))
+                .delay((d, i) => 1000 / ((i + 1) * 5));
+        }
 
-        const x = d3.scaleBand().domain(d3.range(data.length))
-            .range([margin.left * 2, width]).padding(0.1)
-        const y = d3.scaleLinear().domain([0, 100]).nice()
-            .range([height - margin.bottom, margin.top]);
+        const svg = d3.select(this.barRef.current)
+        const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`)
 
-        const xAxis = g => g.attr("transform", `translate(0 ,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).tickFormat(i => data[i].name).tickSizeOuter(0));
-        const yAxis = g => g.attr("transform", `translate(${margin.left * 2},0)`)
-        .call(d3.axisLeft(y).ticks(null, data.format))
-        .call(g => g.select(".domain").remove())
-        .call(g => g.append("text")
-        .attr("x", - margin.left)
-        .attr("y", 10)
-        .attr("fill", "#1978bf")
-        .attr("text-anchor", "start")
-        .text(data.y));
-        
-        const svg = d3.select(this.barRef.current);
-        svg.append('style').text('g g text { font-size: 14px; font-weight: 500;');
-        svg.append("g").attr("fill", "steelblue").selectAll("rect").data(data).join("rect")
-            .attr("x", (d, i) => x(i)).attr("y", d => y(d.value))
-            .attr("height", d => y(0) - y(d.value)).attr("width", x.bandwidth());
+        const x = d3.scaleBand().domain(data.map(d => d.name)).range([0, width]).padding(0.2)
+        g.append("g").attr("transform", `translate(0 ,${height})`)
+            .call(d3.axisBottom(x)).attr('font-size', 14);
 
-        svg.append("g").call(xAxis);
+        const y = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+        g.append("g").call(d3.axisLeft(y).ticks(null, data.format)).attr('font-size', 14)
+            .call(g => g.select(".domain").remove())
 
-        svg.append("g").call(yAxis);
+        g.selectAll("smt").data(data).join("rect")
+            .attr("x", d => x(d.name)).attr("width", x.bandwidth())
+            .attr("height", d => height - y(0)).attr("y", d => y(0))
+            .attr("fill", (d, i) => color[i]).attr('class', 'tasks');
+
+        display();
     }
 
 

@@ -25,7 +25,7 @@ class ProtectedRoutes extends Component {
             <>
                 <Header />
                 <div className="relative flex items-center justify-content-center h-main bg-off-white-one">
-                    <div className="relative h-full w-56 bg-white pt-11">
+                    <div className="relative h-full w-56 bg-white shadow-right pt-11">
                         <div className="absolute h-full w-full">
                             <SideMenu />
                         </div>

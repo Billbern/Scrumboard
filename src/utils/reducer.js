@@ -10,9 +10,9 @@ const initialState = {
         isLoggedIn: false,
         name: "",
         styles: {
-            "To do": ["bg-off-wine-dark", "to-off-wine-light"],
-            "In progress": ["bg-off-gray-dark", "to-off-gray-light"],
-            "In test / review": ["bg-off-pink-dark", "to-off-pink-light"],
+            "To do": ["bg-off-wine-dark", "to-off-pink-light"],
+            "In progress": ["bg-off-blue-dark", "to-off-gray-light"],
+            "In test / review": ["bg-off-voilet-dark2", "to-off-wine-light"],
             "Done": ["bg-off-cyan-dark", "to-off-cyan-light"],
             "Backlog": ["bg-yellow-500", "to-off-yellow-light"]
         },

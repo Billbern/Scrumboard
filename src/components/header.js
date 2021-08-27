@@ -23,7 +23,7 @@ function Header(props) {
     }
 
     return (
-        <header className="h-16 text-white bg-off-blue border-b-2 border-gray-200 shadow-lg">
+        <header className="h-16 text-white bg-off-blue-biased border-b-2 border-gray-200 shadow-lg">
             <div className="relative flex px-10 items-center justify-between h-full">
                 <h1 className="text-xl font-bold">Scrumer</h1>
                 <div className="group rounded-full w-max shadow-lg cursor-pointer">
