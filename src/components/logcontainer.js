@@ -46,7 +46,7 @@ class LogContainer extends Component {
 
                         }) :
                         <div className="h-96 flex items-center justify-center">
-                            <p className="text-off-gray-light">no logs yet </p>
+                            <p className="text-gray-400">no logs yet </p>
                         </div>
                 }
             </div>
