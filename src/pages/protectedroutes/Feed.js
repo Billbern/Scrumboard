@@ -22,21 +22,21 @@ class Feed extends Component {
                             <div className="col-span-6">
                                 <div className="h-full flex flex-col gap-8">
                                     <div className="h-1/2 flex justify-between gap-12">
-                                        <div className="w-1/2 h-full bg-white border-2 border-off-gray-light rounded-lg">
+                                        <div className="w-1/2 h-full bg-white border border-off-gray-light shadow-md rounded-lg">
                                             <PieChart />
                                         </div>
-                                        <div className="w-1/2 h-full bg-white border-2 border-off-gray-light rounded-lg">
+                                        <div className="w-1/2 h-full bg-white border border-off-gray-light shadow-md rounded-lg">
                                             <BarChart />
                                         </div>
                                     </div>
-                                    <div className="h-1/2 bg-white border-2 border-off-gray-light rounded-lg">
+                                    <div className="h-1/2 bg-white border border-off-gray-light shadow-md rounded-lg">
                                         <HeatMap/>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-span-2">
                                 <div className="h-full">
-                                    <div className="h-full border-2 border-off-gray-light bg-white h-full rounded-lg overflow-hidden">
+                                    <div className="h-full border border-off-gray-light bg-white h-full rounded-lg shadow-md">
                                         <LogContainer />
                                     </div>
                                 </div>

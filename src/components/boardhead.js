@@ -30,7 +30,7 @@ function BoardHead({ select }) {
                     {
                         select === 'text'
                             ?
-                            <h1 className="text-lg font-semibold uppercase"> Welcome {localStorage.getItem('username')}</h1>
+                            <h1 className="text-lg font-semibold uppercase"> Welcome {state.user.name}</h1>
                             :
                             ""
                     }
@@ -89,11 +89,8 @@ function BoardHead({ select }) {
                                     <span className="ml-0.5">
                                         {/* display enddate or today */}
                                         {
-                                            moment(state.stats.enddate).format("MMM DD")
+                                            moment(state.stats.enddate).format("MMM DD, YYYY")
                                         }
-                                    </span>,
-                                    <span>
-                                        {moment(today).format("YYYY")}
                                     </span>
                                 </span>
                                 <span className="mr-2 py-0.5 pr-2">

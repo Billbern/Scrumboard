@@ -15,7 +15,7 @@ async function getData(props) {
 }
 async function getLogs(props, n=0) {
     try {
-        const { data, status } = await axios.get(`/logs/${n}`);
+        const { data, status } = await axios.get(`/logs`);
         if (status === 200 && (data.length > 0)) {
             props.addLogs(data);
         }

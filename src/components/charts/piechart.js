@@ -17,7 +17,6 @@ class PieChart extends Component {
     componentDidMount() {
         this.timeout = setTimeout(() => {
             const newDat = this.groupData(this.props.state);
-            // console.log(newDat);
             this.createPie(newDat);
         }, 100)
     }
@@ -28,19 +27,19 @@ class PieChart extends Component {
 
 
     groupData(data) {
-        let completed = { name: "completed", total: 0, percent: 0, max: data.tasks.length };
-        let notcompleted = { name: "notcompleted", total: 0, percent: 0, max: data.tasks.length }
+        let completed = { name: "completed", total: 0, percent: 0, max: data.stats.rewards };
+        let notcompleted = { name: "notcompleted", total: 0, percent: 0, max: data.stats.rewards }
         for (let i = 0; i < data.tasks.length; i++) {
             if (data.tasks[i].stage !== "done") {
-                notcompleted.total += 1
+                notcompleted.total += parseInt(data.tasks[i].reward)
                 notcompleted.percent += Number((data.tasks[i].reward) / (data.stats.rewards)) * 100;
             } else {
-                completed.total += 1
+                completed.total += parseInt(data.tasks[i].reward)
             }
         };
         if (notcompleted.total === 0) {
-            notcompleted.total = 1;
-            notcompleted.max = 1;
+            notcompleted.total = 100;
+            notcompleted.max = 100;
         }
         notcompleted.percent = notcompleted.percent - completed.percent;
         return [completed, notcompleted];
@@ -54,7 +53,7 @@ class PieChart extends Component {
             arcText: data => {
                 let x = arc.centroid(data)[0],
                     y = arc.centroid(data)[1]
-                if (x < 0 || y < 0) { x += 24; y -= 16 } else { x -= 24; y -= 12 };
+                if (x < 0 || y < 0) { x += 4; y -= 4 } else { x -= 4; y -= 4 };
                 return [x, y]
             },
             perFormat: data => data.name === "completed"

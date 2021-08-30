@@ -5,10 +5,12 @@ import moment from "moment";
 const initialState = {
     tasks: [],
     logs: [],
-    stats: { enddate: new Date(), rewards: 0 },
+    stats: { enddate: moment().format('YYYY-MM-DD'), rewards: 0 },
     user: {
         isLoggedIn: false,
         name: "",
+        mail: "",
+        pic: "",
         styles: {
             "To do": ["bg-off-wine-dark", "to-off-pink-light"],
             "In progress": ["bg-off-blue-dark", "to-off-gray-light"],
@@ -74,6 +76,8 @@ export const scrumerSlice = createSlice({
         addUser: (state, action) => {
             state.user.isLoggedIn = action.payload.loggedin;
             state.user.name = action.payload.name;
+            state.user.mail = action.payload.mail;
+            state.user.pic = action.payload.pic;
         },
 
         /**

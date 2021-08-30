@@ -24,9 +24,9 @@ export default function LoginForm() {
             try {
                 const { data, status } = await axios.post('/login', userData)
                 if (status === 200) {
-                    document.cookie = `carrier=${data.user}; expires=${moment().add(8, 'hours')}; SameSite=Strict; Secure`;
+                    document.cookie = `carrier=${JSON.stringify({ name: data.user.name, mail: data.user.mail })}; expires=${moment().add(8, 'hours')}; SameSite=Strict; Secure`;
+                    localStorage.setItem('user_pic', data.user.pic)
                     localStorage.setItem('user_logged', true);
-                    localStorage.setItem('username', data.user);
                     window.location.href = '/';
                 } else {
                     console.log(data);

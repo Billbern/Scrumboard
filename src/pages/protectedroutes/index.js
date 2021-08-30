@@ -10,7 +10,9 @@ import Board from "./Board";
 import Feed from "./Feed";
 
 
-const userData = { loggedin: true, name: localStorage.getItem('username') }
+let cookieData = document.cookie ? {...JSON.parse(document.cookie.split(';')[0].split('=')[1]), pic: localStorage.getItem('user_pic')} : {name: '', mail: '', pic: ''};
+const userData = { ...cookieData, loggedin: Boolean(localStorage.getItem('user_logged')) };
+localStorage.removeItem('user_pic');
 
 class ProtectedRoutes extends Component {
 
