@@ -14,6 +14,7 @@ function Header(props) {
                 document.cookie = `carrier=; expires=${moment().subtract(8, 'hours')}; SameSite=Strict; Secure`;
                 props.addUser({ loggedin: false, name: '', mail: "", pic: "" });
                 localStorage.removeItem('user_logged');
+                localStorage.removeItem('user_pic');
                 window.location.href = '/login';
             }
         } catch (err) {
