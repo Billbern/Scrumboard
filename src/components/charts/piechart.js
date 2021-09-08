@@ -53,7 +53,7 @@ class PieChart extends Component {
             arcText: data => {
                 let x = arc.centroid(data)[0],
                     y = arc.centroid(data)[1]
-                if (x < 0 || y < 0) { x += 4; y -= 4 } else { x -= 4; y -= 4 };
+                // if (x < 0 || y < 0) { x += 4; y -= 4 } else { x -= 4; y -= 4 };
                 return [x, y]
             },
             perFormat: data => data.name === "completed"
@@ -72,13 +72,13 @@ class PieChart extends Component {
                 let i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
                 return t => { d.endAngle = i(t); return arc(d) }
             })
-        mg.append('text').attr("transform", d => `translate(${specs.arcText(d)})`).attr("dy", "14")
-            .transition().delay(1000).text(d => specs.perFormat(d.data)).attr("fill", "#fff").attr("font-size", 14)
         const legends = svg.append('g').attr('transform', `translate(${(specs.width - 90) / 2}, ${(specs.height - 82) / 2})`)
             .selectAll(".legends").data(data)
         const legend = legends.enter().append("g").classed(".legends", true).attr("transform", (d, i) => `translate(0, ${(i + 1) * 24})`);
         legend.append("rect").attr("width", 14).attr("height", 14).attr("fill", (d, i) => specs.color[i]);
         legend.append("text").text(d => d.name === "completed" ? "Done" : "Not Done").attr("x", 24).attr("y", 12);
+        mg.append('text').attr("transform", d => `translate(${specs.arcText(d)})`).attr("dy", "14")
+            .transition().delay(1000).text(d => specs.perFormat(d.data)).attr("fill", "#fff").attr("font-size", 14)
     }
 
     render() {
