@@ -12,6 +12,8 @@ import App from './App';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ROUTE;
 axios.defaults.withCredentials = true;
+axios.defaults.headers = {'Content-Type': 'application/json'};
+
 
 const rootElement = document.getElementById('root');
 

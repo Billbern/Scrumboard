@@ -1,33 +1,8 @@
-import moment from "moment";
 import { Component } from "react";
 import { connect } from "react-redux";
-
+import formatDate from "../utils/dateformater";
 
 class LogContainer extends Component {
-
-    constructor() {
-        super();
-        this.formatDate = this.formatDate.bind(this);
-    }
-
-    formatDate(dateTime) {
-        if (moment().diff(moment(dateTime), 'hours') > 0) {
-            if(moment().diff(moment(dateTime), 'hours') === 1){
-                return 'an hour ago';    
-            }
-            return `${moment().diff(moment(dateTime), 'hours')} hours ago`
-        } else if (moment().diff(moment(dateTime), 'minutes') > 0) {
-            if(moment().diff(moment(dateTime), 'minutes') === 1){
-                return 'a minute ago'    
-            }
-            return `${moment().diff(moment(dateTime), 'minutes')} minutes ago`
-        } else {
-            if(moment().diff(moment(dateTime), 'seconds') === 1){
-                return 'a second ago'    
-            }
-            return `${moment().diff(moment(dateTime), 'seconds')} seconds ago`
-        }
-    }
 
     render() {
         return (
@@ -40,7 +15,7 @@ class LogContainer extends Component {
                                 <div className="text-sm py-0.5">{item.message}</div>
                                 <div className="text-xs flex justify-between py-0.5">
                                     <span>Task {item.task.id}</span>
-                                    <span> {this.formatDate(item.createAt)} </span>
+                                    <span> { formatDate(item.createAt) } </span>
                                 </div>
                             </div>) : ''
 
