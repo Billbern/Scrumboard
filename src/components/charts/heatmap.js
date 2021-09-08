@@ -65,7 +65,7 @@ class HeatMap extends Component {
             width: parseInt(d3.select('#heatCon').style('width')) - margin.left - margin.right,
             height: parseInt(d3.select('#heatCon').style('height')) - margin.top - margin.bottom,
             color: d => d.value === 0 ? colors[3] : d.value < 5 ? colors[2] : d.value > 5 && d.value < 10 ? colors[1] : colors[0],
-            text: d => (d.value === 0) || (d.value === 1)  ? `Activity ${d.value}` : `${d.date ? moment(d.date).format('MMM DD, YYYY') : ''}\nActivities ${d.value}`,
+            text: d => (d.value === 0) || (d.value === 1)  ? `${d.date ? moment(d.date).format('MMM DD, YYYY') : ''}\nActivity ${d.value}` : `${d.date ? moment(d.date).format('MMM DD, YYYY') : ''}\nActivities ${d.value}`,
         }
         const svg = d3.select(this.heatRef.current);
         const group = svg.append('g').attr("transform", `translate(${margin.left}, ${margin.top})`)
